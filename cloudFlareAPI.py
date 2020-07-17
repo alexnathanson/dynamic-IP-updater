@@ -10,13 +10,20 @@ Updates dynamic IP
 '''
 
 import requests
-
+import os
 from datetime import date
 
+EMAIL = os.getenv('CF_API_EMAIL')
+KEY = os.environ.get('CF_API_KEY')
+
+EXT_IP = os.environ.get('EXTERNAL_IP')
+print(EXT_IP);
+
+#os.environ['EXTERNAL_IP'] = 'TEST_username'
 
 headers = {
-    'X-Auth-Email': '',
-    'X-Auth-Key': '',
+    'X-Auth-Email': EMAIL,
+    'X-Auth-Key': KEY,
     'Content-Type': 'application/json',
 }
 
