@@ -11,6 +11,9 @@ Updates dynamic IP
 
 import requests
 
+from datetime import date
+
+
 headers = {
     'X-Auth-Email': '',
     'X-Auth-Key': '',
@@ -19,17 +22,21 @@ headers = {
 
 data = {}
 
-
-
-exIP = ""
-
 def getExternalIP():
 	exIP = requests.get('http://whatismyip.akamai.com/')
-	print(exIP)
+	return exIP.text
 
 def getPoolInfo():
 	response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools', headers=headers)
 
 	print(response.json())
+
+def updateOriginIP():
+	today = date.today()
+
+	exIP = "google.com" #getExternalIP();
+	data = {"description":"My first pool, updated "+ today,
+		"origins":[{"name":"RedHook","address":exIP,"enabled":true,"weight":1}]}
+
 
 getExternalIP()
