@@ -11,8 +11,6 @@ Updates dynamic IP
 
 import requests
 
-
-
 headers = {
     'X-Auth-Email': '',
     'X-Auth-Key': '',
@@ -21,9 +19,18 @@ headers = {
 
 data = {}
 
-response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools', headers=headers)
 
 
-print response
+exIP
 
+getExternalIP()
+
+def getExternalIP:
+	exIP = requests.get('http://whatismyip.akamai.com/')
+	print(exIP)
+
+def getPoolInfo:
+	response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools', headers=headers)
+
+	print(response.json())
 
