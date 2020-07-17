@@ -23,8 +23,6 @@ data = {}
 
 exIP = ""
 
-getExternalIP()
-
 def getExternalIP():
 	exIP = requests.get('http://whatismyip.akamai.com/')
 	print(exIP)
@@ -34,3 +32,4 @@ def getPoolInfo():
 
 	print(response.json())
 
+getExternalIP()
