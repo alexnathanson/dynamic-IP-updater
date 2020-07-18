@@ -93,7 +93,7 @@ def updateOriginIP():
 		print('updating Cloud Flare origin IP')
 		#today = date.today()
 
-		data = {"origins":[{"name":"RedHook","address":configDict['ip'],"enabled":True,"weight":1}]}
+		data = {"origins":[{"name":configDict['originName'],"address":configDict['ip'],"enabled":True,"weight":1}]}
 		
 		dt = json.dumps(data)
 		print(dt)
