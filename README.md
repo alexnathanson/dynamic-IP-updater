@@ -2,7 +2,7 @@
 Updates Cloudflare load balancing origin when dynamic IP changes to maintain connections
 
 
-Overview: Typically, it is not possible to get a static external IP from most ISP with a residential internet service contract. Commercial internet service contracts can be expensive.
+This was designed for a server running on a Raspberry Pi 3B+ on a residential network with a dynamic IP. It is often not possible to get a static external IP from an ISP if you have a residential internet service contract. Commercial internet service contracts can be expensive. This allows you to run a server with a dynamic IP and maintain functionality even if the IP changes, through Cloudflare's load balancing services.
 
 Setup
 * Server setup
