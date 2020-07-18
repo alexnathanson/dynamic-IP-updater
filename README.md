@@ -1,5 +1,5 @@
 # dynamic-IP-updater
-Updates Cloudflare load balancing origin when dynamic API changes to maintain connections
+Updates Cloudflare load balancing origin when dynamic IP changes to maintain connections
 
 1) check external IP
 2) compare current external IP with previously stored external IP and update if needed
@@ -7,7 +7,8 @@ Updates Cloudflare load balancing origin when dynamic API changes to maintain co
 4) compare Cloud Flare origin IP with current external IP and update if needed
 
 Cloud Flare API documentation https://api.cloudflare.com/
-* The API requires the user email and the API key
+
+User email and the API key are stored in environmental variables
 * The environmental variable values are CF_API_EMAIL and CF_API_KEY
 
 Setting environmental variables on Pi (source https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/)
@@ -15,7 +16,7 @@ Setting environmental variables on Pi (source https://linuxize.com/post/how-to-s
 	* export CF_API_EMAIL = api-user-email
 	* export CF_API_KEY = api-key
 
-Config file must include
-* ip = 108.29.41.133
+Config file must include ip, originName, and poolID. ip gets updated automatically. Correct originName and poolID must be hardcoded in.
+* ip = 0.0.0.0 
 * originName = RedHook
 * poolID = 6119c80789e350dd436039010c99b5df
