@@ -1,12 +1,18 @@
 # dynamic-IP-updater
 Updates Cloudflare load balancing origin when dynamic IP changes to maintain connections
 
-1) check external IP
-2) compare current external IP with previously stored external IP and update if needed
-3) check Cloud Flare origin IP
-4) compare Cloud Flare origin IP with current external IP and update if needed
 
-Cloud Flare API documentation https://api.cloudflare.com/
+Overview: Typically, it is not possible to get a static external IP from most ISP with a residential internet service contract. Commercial internet service contracts can be expensive.
+
+Setup
+* Server setup
+	* Enable port forwarding on the router.
+	* Assign port 80 to your server.
+
+* Cloudflare setup
+	* Create a CF account (the free account will work) and enable load balancing (starts at $5)
+	* Cloud Flare load balancing https://developers.cloudflare.com/load-balancing/about
+	* Cloud Flare API documentation https://api.cloudflare.com/
 
 User email and the API key are stored in environmental variables
 * The environmental variable values are CF_API_EMAIL and CF_API_KEY

@@ -1,10 +1,12 @@
 '''
-Updates Cloudflare load balancing origin when dynamic API changes
+Updates Cloudflare load balancing origin when dynamic IP changes to maintain connections
 
 1) check external IP
 2) compare current external IP with previously stored external IP and update if needed
 3) check Cloud Flare origin IP
 4) compare Cloud Flare origin IP with current external IP and update if needed
+
+Cloud Flare API documentation https://api.cloudflare.com/
 '''
 
 import requests
