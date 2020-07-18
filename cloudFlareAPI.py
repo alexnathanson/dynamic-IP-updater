@@ -97,17 +97,20 @@ def updateOriginIP():
 
 	print(response.json())
 
+def getPoolID():
+
+	pools = listPools()['result']
+
+	#get pool id
+	for pool in pools:
+		if pool['name'] == configDict['poolName']:
+			configDict['poolID'] = pool['id']
+			writeConfig()
+			#print(pool)
+
 readConfig()
 updateIP()
 
-pools = listPools()['result']
-
-#get pool id
-for pool in pools:
-	if pool['name'] == configDict['poolName']:
-		configDict['poolID'] = pool['id']
-		writeConfig()
-		#print(pool)
 
 updateOriginIP()
 
