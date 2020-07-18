@@ -16,7 +16,7 @@ Setting environmental variables on Pi (source https://linuxize.com/post/how-to-s
 	* export CF_API_EMAIL = api-user-email
 	* export CF_API_KEY = api-key
 
-Config file must include ip, originName, and poolID. ip gets updated automatically. Correct originName and poolID must be hardcoded in.
+Config file must include ip, originName, and poolID. ip gets updated automatically when it changes. Correct originName and poolID must be hardcoded in.
 * ip = 0.0.0.0 
 * originName = myOrigin
 * poolID = abcdefghijklmnopqrstuvwxyz1234567890
@@ -24,7 +24,7 @@ Config file must include ip, originName, and poolID. ip gets updated automatical
 For Raspberry Pi, set chron job to run on boot and every 15 minutes
 1) Make script runner executable
 * chmod 755 scriptrunner.sh
-3) Schedule Cron jobs (note: cron jobs change the environment, so environmental variables do not necessarily work - if environmental variables were set as suggested above, the below cron job lines should work)
+3) Schedule Cron jobs (note: cron jobs change the environment, so environmental variables do not necessarily work - if environmental variables were set as suggested above, the below cron job lines should work. You can also try putting environment variables directly in cron)
 
 */15 * * * * . /etc/profile; sh /home/pi/dynamic-IP-updater/scriptrunner.sh > /home/pi/dynamic-IP-updater/cronlog.log 2>&1
-@reboot sleep 10; . /etc/profile; sh /home/pi/dynamic-IP-updater/scriptrunner.sh > /home/pi/dynamic-IP-updater/cronlog.log 2>&1
+@reboot sleep 10 && . /etc/profile; sh /home/pi/dynamic-IP-updater/scriptrunner.sh > /home/pi/dynamic-IP-updater/cronlog.log 2>&1
