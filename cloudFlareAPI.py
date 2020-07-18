@@ -12,14 +12,12 @@ Updates dynamic IP
 import requests
 import os
 from datetime import date
+import fileinput
 
 EMAIL = os.getenv('CF_API_EMAIL')
 KEY = os.environ.get('CF_API_KEY')
-
-EXT_IP = os.environ.get('EXTERNAL_IP')
-print(EXT_IP);
-
-#os.environ['EXTERNAL_IP'] = 'TEST_username'
+EXTERNAL_IP = ""
+oldIP = ""
 
 headers = {
     'X-Auth-Email': EMAIL,
@@ -29,9 +27,64 @@ headers = {
 
 data = {}
 
-def getExternalIP():
-	exIP = requests.get('http://whatismyip.akamai.com/')
-	return exIP.text
+configFileList = []
+
+def checkExternalIP():
+	exIP = requests.get('http://whatismyip.akamai.com/').text
+
+	if(exIP != oldIP):
+		EXTERNAL_IP = exIP
+
+		# now change the 2nd line, note that you have to add a newline
+		data[1] = 'Mage\n'
+
+		# and write everything back
+		with open('stats.txt', 'w') as file:
+		    file.writelines( data )
+
+		print("External IP updated to " + EXTERNAL_IP)
+	else:
+		print("External IP " + EXTNERAL_IP + " unchanged")
+
+def writeConfig(listToWrite):
+	# and write everything back
+	with open('config.txt', 'w') as file:
+	    file.writelines(listToWrite)
+
+def updateIP():
+	configFile = open('config.txt', 'r+' )
+	configFileList = configFile.readlines()
+
+	exIP = requests.get('http://whatismyip.akamai.com/').text
+
+	notHere = True
+
+	for l in range(len(configFileList)):
+		if 'ip = ' in configFileList[l]:
+			notHere = False
+			#print(configFileList[l])
+			oldIP = configFileList[l].split()[2]
+			#print(oldIP)
+
+			if(exIP != oldIP):
+				EXTERNAL_IP = exIP
+
+				# now change the 2nd line, note that you have to add a newline
+				configFileList[l] = 'ip = ' + exIP +'\n'
+		
+				writeConfig(configFileList)
+
+				print("External IP updated to " + EXTERNAL_IP)
+			else:
+				EXTERNAL_IP = oldIP
+				print("External IP " + EXTERNAL_IP + " unchanged")
+			break
+
+	if notHere == True:
+		EXTERNAL_IP = exIP
+		configFileList.append('\nip = ' + exIP)
+		writeConfig(configFileList)
+		print("External IP " + EXTERNAL_IP + " added to config.txt")
 
 def getPoolInfo():
 	response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools', headers=headers)
@@ -45,5 +98,6 @@ def updateOriginIP():
 	data = {"description":"My first pool, updated "+ today,
 		"origins":[{"name":"RedHook","address":exIP,"enabled":true,"weight":1}]}
 
+#checkExternalIP()
 
-getExternalIP()
+updateIP()
