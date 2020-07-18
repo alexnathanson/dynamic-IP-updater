@@ -18,5 +18,5 @@ Setting environmental variables on Pi (source https://linuxize.com/post/how-to-s
 
 Config file must include ip, originName, and poolID. ip gets updated automatically. Correct originName and poolID must be hardcoded in.
 * ip = 0.0.0.0 
-* originName = RedHook
-* poolID = 6119c80789e350dd436039010c99b5df
+* originName = myOrigin
+* poolID = abcdefghijklmnopqrstuvwxyz1234567890
