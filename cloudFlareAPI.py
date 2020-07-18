@@ -26,11 +26,10 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-#data = {}
-
 configFileList = []
 configDict = {}
 
+#write configDict to config.txt
 def writeConfig():
 	toWrite = []
 
@@ -41,6 +40,7 @@ def writeConfig():
 	with open('config.txt', 'w') as file:
 	    file.writelines(toWrite)
 
+#read in config.txt and create configDict
 def readConfig():
 	configFile = open('config.txt', 'r' )
 	configFileList = configFile.readlines()
@@ -57,6 +57,7 @@ def readConfig():
 
 	print(configDict)
 
+#update configDict and config.txt file
 def updateIP():
 	"""configFile = open('config.txt', 'r+' )
 				configFileList = configFile.readlines()"""
@@ -79,6 +80,7 @@ def updateIP():
 		writeConfig()
 		print("External IP " + EXTERNAL_IP + " added to config.txt")
 
+#return list of pools
 def listPools():
 	response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools', headers=headers)
 
@@ -86,17 +88,25 @@ def listPools():
 	#test = json.loads(response.json())
 	#return test
 
+#update Cloud Flare origin info
 def updateOriginIP():
-	#today = date.today()
-
-	data = {"description":"My first pool","origins":[{"name":"RedHook","address":configDict['ip'],"enabled":True,"weight":1}]}
 	
-	dt = json.dumps(data)
-	print(dt)
-	response = requests.patch('https://api.cloudflare.com/client/v4/user/load_balancers/pools/' + configDict['poolID'], headers=headers, data=dt)
+	if configDict['ip'] != getOriginIP():
+		
+		print('updating Cloud Flare origin IP')
+		#today = date.today()
 
-	print(response.json())
+		data = {"origins":[{"name":"RedHook","address":configDict['ip'],"enabled":True,"weight":1}]}
+		
+		dt = json.dumps(data)
+		print(dt)
+		response = requests.patch('https://api.cloudflare.com/client/v4/user/load_balancers/pools/' + configDict['poolID'], headers=headers, data=dt)
 
+		print(response.json())
+	else:
+		print('Cloud Flare origin IP is good')
+
+#get pool idea matching pool name in config file
 def getPoolID():
 
 	pools = listPools()['result']
@@ -108,10 +118,20 @@ def getPoolID():
 			writeConfig()
 			#print(pool)
 
+#retrieve the IP address for the origin
+def getOriginIP():
+	response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools/'+configDict['poolID'], headers=headers)
+
+	origAddress = ""
+
+	for o in response.json()['result']['origins']:
+		if o['name'] == configDict['originName']:
+			origAddress = o['address']
+			break
+
+	return origAddress
+
 readConfig()
 updateIP()
 
-
 updateOriginIP()
-
-#print(type(listPools().keys()))
