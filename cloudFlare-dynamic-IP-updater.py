@@ -1,17 +1,14 @@
 '''
-Dynamic DNS with Cloudflare on Raspberry Pi server
+Updates Cloudflare load balancing origin when dynamic API changes
 
-Updates dynamic IP
-
-1) check public IP
-2) compare with previous stored public IP
-3) check Cloud Flare origins
-4) if IP different, update Cloud Flare origin
+1) check external IP
+2) compare current external IP with previously stored external IP and update if needed
+3) check Cloud Flare origin IP
+4) compare Cloud Flare origin IP with current external IP and update if needed
 '''
 
 import requests
 import os
-from datetime import date
 import fileinput
 import json
 
