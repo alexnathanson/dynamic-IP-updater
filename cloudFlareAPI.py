@@ -13,6 +13,7 @@ import requests
 import os
 from datetime import date
 import fileinput
+import json
 
 EMAIL = os.getenv('CF_API_EMAIL')
 KEY = os.environ.get('CF_API_KEY')
@@ -25,79 +26,89 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-data = {}
+#data = {}
 
 configFileList = []
+configDict = {}
 
-def checkExternalIP():
-	exIP = requests.get('http://whatismyip.akamai.com/').text
+def writeConfig():
+	toWrite = []
 
-	if(exIP != oldIP):
-		EXTERNAL_IP = exIP
+	for l in configDict.keys():
+		toWrite.append(l + ' = ' + configDict[l] + '\n')
 
-		# now change the 2nd line, note that you have to add a newline
-		data[1] = 'Mage\n'
-
-		# and write everything back
-		with open('stats.txt', 'w') as file:
-		    file.writelines( data )
-
-		print("External IP updated to " + EXTERNAL_IP)
-	else:
-		print("External IP " + EXTNERAL_IP + " unchanged")
-
-def writeConfig(listToWrite):
 	# and write everything back
 	with open('config.txt', 'w') as file:
-	    file.writelines(listToWrite)
+	    file.writelines(toWrite)
+
+def readConfig():
+	configFile = open('config.txt', 'r' )
+	configFileList = configFile.readlines()
+	#configDict = {}
+
+	for kv in configFileList:
+		if '\n' in kv:
+			kv = kv.replace('\n','')
+
+		kvSplit = kv.split(' = ')
+	
+		if len(kvSplit)-1 > 0:
+			configDict[kvSplit[0]]=kvSplit[1]
+
+	print(configDict)
 
 def updateIP():
-	configFile = open('config.txt', 'r+' )
-	configFileList = configFile.readlines()
+	"""configFile = open('config.txt', 'r+' )
+				configFileList = configFile.readlines()"""
 
 	exIP = requests.get('http://whatismyip.akamai.com/').text
 
-	notHere = True
-
-	for l in range(len(configFileList)):
-		if 'ip = ' in configFileList[l]:
-			notHere = False
-			#print(configFileList[l])
-			oldIP = configFileList[l].split()[2]
-			#print(oldIP)
-
-			if(exIP != oldIP):
-				EXTERNAL_IP = exIP
-
-				# now change the 2nd line, note that you have to add a newline
-				configFileList[l] = 'ip = ' + exIP +'\n'
-		
-				writeConfig(configFileList)
-
-				print("External IP updated to " + EXTERNAL_IP)
-			else:
-				EXTERNAL_IP = oldIP
-				print("External IP " + EXTERNAL_IP + " unchanged")
-			break
-
-	if notHere == True:
+	print(configDict.keys())
+	if 'ip' in configDict.keys():
+		if configDict['ip'] != exIP:
+			configDict['ip'] = exIP
+			EXTERNAL_IP = exIP
+			writeConfig()
+			print("External IP updated to " + EXTERNAL_IP)
+		else:
+			EXTERNAL_IP = exIP
+			print("External IP " + EXTERNAL_IP + " unchanged")
+	else:
+		configDict['ip'] = exIP
 		EXTERNAL_IP = exIP
-		configFileList.append('\nip = ' + exIP)
-		writeConfig(configFileList)
+		writeConfig()
 		print("External IP " + EXTERNAL_IP + " added to config.txt")
 
-def getPoolInfo():
+def listPools():
 	response = requests.get('https://api.cloudflare.com/client/v4/user/load_balancers/pools', headers=headers)
+
+	return response.json()
+	#test = json.loads(response.json())
+	#return test
+
+def updateOriginIP():
+	#today = date.today()
+
+	data = {"description":"My first pool","origins":[{"name":"RedHook","address":configDict['ip'],"enabled":True,"weight":1}]}
+	
+	dt = json.dumps(data)
+	print(dt)
+	response = requests.patch('https://api.cloudflare.com/client/v4/user/load_balancers/pools/' + configDict['poolID'], headers=headers, data=dt)
 
 	print(response.json())
 
-def updateOriginIP():
-	today = date.today()
-
-	exIP = "google.com" #getExternalIP();
-	data = {"description":"My first pool, updated "+ today,
-		"origins":[{"name":"RedHook","address":exIP,"enabled":true,"weight":1}]}
-
-#checkExternalIP()
-
+readConfig()
 updateIP()
+
+pools = listPools()['result']
+
+#get pool id
+for pool in pools:
+	if pool['name'] == configDict['poolName']:
+		configDict['poolID'] = pool['id']
+		writeConfig()
+		#print(pool)
+
+updateOriginIP()
+
+#print(type(listPools().keys()))
