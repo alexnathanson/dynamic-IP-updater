@@ -121,11 +121,13 @@ def getOriginIP():
 
 	origAddress = ""
 
-	for o in response.json()['result']['origins']:
-		if o['name'] == configDict['originName']:
-			origAddress = o['address']
-			break
-
+	if response.json()['success'] == True:
+		for o in response.json()['result']['origins']:
+			if o['name'] == configDict['originName']:
+				origAddress = o['address']
+				break
+	else:
+		print('getOriginIP response' + str(response.json()['success']))
 	return origAddress
 
 readConfig()

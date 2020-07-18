@@ -22,5 +22,9 @@ Config file must include ip, originName, and poolID. ip gets updated automatical
 * poolID = abcdefghijklmnopqrstuvwxyz1234567890
 
 For Raspberry Pi, set chron job to run on boot and every hour
-* 0 * * * * python /home/pi/dynamic-ip-updater/cloudFlare-dynamic-IP-updater.py
-* @reboot sleep 10; python /home/pi/dynamic-ip-updater/cloudFlare-dynamic-IP-updater.py &
+1) Make logs directory in /home/pi
+* mkdir logs
+2) Make script runner executable
+3) Schedule Cron jobs
+* */15 * * * * python /home/pi/dynamic-IP-updater/cloudFlare-dynamic-IP-updater.py > /home/pi/logs/cronlog.log 2>&1
+* @reboot sleep 10; python /home/pi/dynamic-ip-updater/cloudFlare-dynamic-IP-updater.py > /home/pi/logs/cronlog.log 2>&1
