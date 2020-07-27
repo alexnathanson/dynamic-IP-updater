@@ -1,7 +1,7 @@
 # dynamic-IP-updater
-Updates Cloudflare load balancing origin when a server's dynamic IP changes to maintain connections
+Updates Cloudflare DNS www A record or load balancing origin when a server's dynamic IP changes to maintain connections
 
-This was designed for a server running on a Raspberry Pi 3B+ on a residential network with a dynamic IP. It is often not possible to get a static external IP from an ISP if you have a residential internet service contract. Commercial internet service contracts can be expensive. This allows you to run a server with a dynamic IP and maintain functionality even if the IP changes, through Cloudflare's load balancing services.
+This was designed for a server running on a Raspberry Pi 3B+ on a residential network with a dynamic IP. It is often not possible to get a static external IP from an ISP if you have a residential internet service contract. Commercial internet service contracts can be expensive. This allows you to run a server with a dynamic IP and maintain functionality even if the IP changes, through Cloudflare's API.
 
 ## Setup
 * Server setup
@@ -9,7 +9,7 @@ This was designed for a server running on a Raspberry Pi 3B+ on a residential ne
 	* Assign port 80 to your server.
 
 * Cloudflare setup
-	* Create a CF account (the free account will work) and enable load balancing (starts at $5)
+	* Create a CF account (the free account will work). Enable load balancing if needed(starts at $5)
 	* Cloud Flare load balancing https://developers.cloudflare.com/load-balancing/about
 	* Cloud Flare API documentation https://api.cloudflare.com/
 
@@ -25,10 +25,13 @@ Setting environmental variables on the Pi (source https://linuxize.com/post/how-
 	* export CF_API_KEY=api-key
 
 ## Config File
-Config file must include ip, originName, and poolID. ip gets updated automatically when it changes. Correct originName and poolID must be hardcoded in.
+Modes can be set to load balancer or dns. IP gets updated automatically when it changes. If in load balancing mode the correct originName and poolID must be hardcoded in. If in DNS mode the correct zoneID and DNSidentifier must be hardcoded in
+* mode = dns
 * ip = 0.0.0.0 
 * originName = myOrigin
 * poolID = abcdefghijklmnopqrstuvwxyz1234567890
+* zoneID = db15ae3912a75742b31bc4bdce854db6
+* DNSidentifier = 029e752a208bc4cb6a8a10ab5af4142e
 
 ## Automation
 For Raspberry Pi, set chron job to run on boot and every 15 minutes

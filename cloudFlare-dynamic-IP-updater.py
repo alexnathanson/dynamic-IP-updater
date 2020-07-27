@@ -134,7 +134,7 @@ def getOriginIP():
 
 #retrieve the IP address for the DNS listing
 def getDNSIP():
-	response = requests.get('https://api.cloudflare.com/client/v4/zones'+configDict['zoneID']+'/dns_records/'+configDict['DNSidentifier'], headers=headers)
+	response = requests.get('https://api.cloudflare.com/client/v4/zones/'+configDict['zoneID']+'/dns_records/'+configDict['DNSidentifier'], headers=headers)
 
 	dnsAddress = ""
 
@@ -149,6 +149,7 @@ def updateDNS():
 		
 		print('updating Cloud Flare DNS A record')
 
+		#should this update other DNS records too?
 		data ={"type":"A","name":"www.nightlight.xyz","content":configDict['ip'],"ttl":1,"proxied":True}
 
 		dt = json.dumps(data)
