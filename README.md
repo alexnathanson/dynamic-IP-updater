@@ -18,9 +18,11 @@ User email and the API key are stored in environmental variables
 * The environmental variable values are CF_API_EMAIL and CF_API_KEY
 
 Setting environmental variables on the Pi (source https://linuxize.com/post/how-to-set-and-list-environment-variables-in-linux/)
-* add these lines to bottom of /etc/profile - Variables set in this file are loaded whenever a bash login shell is entered. When declaring environment variables in this file you need to use the export command:
-	* export CF_API_EMAIL = api-user-email
-	* export CF_API_KEY = api-key
+* Variables set in the /etc/profile file are loaded whenever a bash login shell is entered. You may need to reboot after adding the variables to this file.
+* When declaring environment variables in this file you need to use the export command. Do not put a space around the =.
+* Add these lines to bottom of /etc/profile 
+	* export CF_API_EMAIL=api-user-email
+	* export CF_API_KEY=api-key
 
 ## Config File
 Config file must include ip, originName, and poolID. ip gets updated automatically when it changes. Correct originName and poolID must be hardcoded in.

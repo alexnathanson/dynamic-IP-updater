@@ -94,7 +94,6 @@ def updateLoadBalancerOriginIP():
 	if configDict['ip'] != getOriginIP():
 		
 		print('updating Cloud Flare origin IP')
-		#today = date.today()
 
 		data = {"origins":[{"name":configDict['originName'],"address":configDict['ip'],"enabled":True,"weight":1}]}
 		
@@ -134,7 +133,19 @@ def getOriginIP():
 	return origAddress
 
 def updateDNS():
-	return
+	if configDict['ip'] != getOriginIP():
+		
+		print('updating Cloud Flare DNS A record')
+
+		data ={"type":"A","name":"www.nightlight.xyz","content":configDict['ip'],"ttl":1,"proxied":True}
+
+		dt = json.dumps(data)
+		print(dt)
+		response = requests.put('https://api.cloudflare.com/client/v4/zones/' + configDict['zoneID']+'/dns_records/' + configDict['DNSidentifier'], headers=headers, data=dt)
+
+		print(response.json())
+	else:
+		print('Cloud Flare DNS A record is good')   
 
 def updateRemoteIP():
 	if configDict['mode'] == 'load balancer':

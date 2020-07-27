@@ -7,3 +7,7 @@ ip = 108.29.41.133
 #hardcode originName and poolID if in load balancer mode (can find this info via Cloudflare dashboard or API)
 originName = Red
 poolID = 6119c80789e350dd436039010c99b5df
+
+#hardcode zoneID and DNSidentifier if in DNS mode
+zoneID = db15ae3912a75742b31bc4bdce854db6
+DNSidentifier = 029e752a208bc4cb6a8a10ab5af4142e
