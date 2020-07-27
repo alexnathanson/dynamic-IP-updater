@@ -57,7 +57,7 @@ def readConfig():
 	print(configDict)
 
 #update configDict and config.txt file
-def updateIP():
+def updateLocalIP():
 	"""configFile = open('config.txt', 'r+' )
 				configFileList = configFile.readlines()"""
 
@@ -88,7 +88,7 @@ def listPools():
 	#return test
 
 #update Cloud Flare origin info
-def updateOriginIP():
+def updateLoadBalancerOriginIP():
 	
 	if configDict['ip'] != getOriginIP():
 		
@@ -106,7 +106,7 @@ def updateOriginIP():
 		print('Cloud Flare origin IP is good')
 
 #get pool idea matching pool name in config file
-def getPoolID():
+"""def getPoolID():
 
 	pools = listPools()['result']
 
@@ -115,7 +115,7 @@ def getPoolID():
 		if pool['name'] == configDict['poolName']:
 			configDict['poolID'] = pool['id']
 			writeConfig()
-			#print(pool)
+			#print(pool)"""
 
 #retrieve the IP address for the origin
 def getOriginIP():
@@ -132,7 +132,15 @@ def getOriginIP():
 		print('getOriginIP response' + str(response.json()['success']))
 	return origAddress
 
-readConfig()
-updateIP()
+def updateDNS():
 
-updateOriginIP()
+def updateRemoteIP():
+	if configDict['mode'] == 'load balancer':
+		updateLoadBalancerOriginIP()
+	else if configDict['mode'] == 'dns':
+		updateDNS()
+	
+readConfig()
+updateLocalIP()
+
+updateRemoteIP()
