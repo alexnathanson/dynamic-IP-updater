@@ -132,8 +132,20 @@ def getOriginIP():
 		print('getOriginIP response' + str(response.json()['success']))
 	return origAddress
 
+#retrieve the IP address for the DNS listing
+def getDNSIP():
+	response = requests.get('https://api.cloudflare.com/client/v4/zones'+configDict['zoneID']+'/dns_records/'+configDict['DNSidentifier'], headers=headers)
+
+	dnsAddress = ""
+
+	if response.json()['success'] == True:
+		dnsAddress = response.json()['result']['content']:
+	else:
+		print('getOriginIP response' + str(response.json()['success']))
+	return dnsAddress
+
 def updateDNS():
-	if configDict['ip'] != getOriginIP():
+	if configDict['ip'] != getDNSIP():
 		
 		print('updating Cloud Flare DNS A record')
 

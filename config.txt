@@ -1,5 +1,5 @@
-#modes: load balancer or DNS
-mode = load balancer
+#modes: load balancer or dns
+mode = dns
 
 #this gets automatically updated
 ip = 108.29.41.133
