@@ -46,13 +46,14 @@ def readConfig():
 	#configDict = {}
 
 	for kv in configFileList:
-		if '\n' in kv:
-			kv = kv.replace('\n','')
+		if '#' not in kv:
+			if '\n' in kv:
+				kv = kv.replace('\n','')
 
-		kvSplit = kv.split(' = ')
-	
-		if len(kvSplit)-1 > 0:
-			configDict[kvSplit[0]]=kvSplit[1]
+			kvSplit = kv.split(' = ')
+		
+			if len(kvSplit)-1 > 0:
+				configDict[kvSplit[0]]=kvSplit[1]
 
 	print(configDict)
 
@@ -133,13 +134,14 @@ def getOriginIP():
 	return origAddress
 
 def updateDNS():
+	return
 
 def updateRemoteIP():
 	if configDict['mode'] == 'load balancer':
 		updateLoadBalancerOriginIP()
-	else if configDict['mode'] == 'dns':
+	elif configDict['mode'] == 'dns':
 		updateDNS()
-	
+
 readConfig()
 updateLocalIP()
 

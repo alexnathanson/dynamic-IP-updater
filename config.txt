@@ -1,3 +1,9 @@
+#modes: load balancer or DNS
+mode = load balancer
+
+#this gets automatically updated
 ip = 108.29.41.133
+
+#hardcode originName and poolID if in load balancer mode (can find this info via Cloudflare dashboard or API)
 originName = Red
 poolID = 6119c80789e350dd436039010c99b5df
