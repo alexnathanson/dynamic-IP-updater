@@ -129,7 +129,7 @@ def getOriginIP():
 				origAddress = o['address']
 				break
 	else:
-		print('getOriginIP response' + str(response.json()['success']))
+		print('getOriginIP response: ' + str(response.json()['success']))
 	return origAddress
 
 #retrieve the IP address for the DNS listing
@@ -139,9 +139,9 @@ def getDNSIP():
 	dnsAddress = ""
 
 	if response.json()['success'] == True:
-		dnsAddress = response.json()['result']['content']:
+		dnsAddress = response.json()['result']['content']
 	else:
-		print('getOriginIP response' + str(response.json()['success']))
+		print('getDNSIP response: ' + str(response.json()['success']))
 	return dnsAddress
 
 def updateDNS():
