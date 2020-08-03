@@ -51,5 +51,14 @@ def determineServer(arrayOfData):
 def localData():
 	#get the local PV data
 
+	# read file
+	with open('pvData.json', 'r') as myfile:
+	    data=myfile.read()
+
+	# parse file
+	obj = json.loads(data)
+
+	print(obj)
+
 localData()
 remoteData()
