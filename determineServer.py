@@ -49,13 +49,13 @@ def remoteData():
 def determineServer(arrayOfData):
 
 	#add a mechanism for comparing time stamps...
-	print(arrayOfData)
+	#print(arrayOfData)
 	thisServer = True
 
 	#loop through data from all servers and compare voltages
 	for s in arrayOfData:
 		print(s['pvData']['voltage'])
-		print(localPVData['pvData'])
+		print(localPVData['pvData']['voltage'])
 		if float(s['pvData']['voltage'])>float(localPVData['pvData']['voltage']):
 			thisServer = False
 
@@ -73,7 +73,7 @@ def localData():
 	# parse file
 	localPVData = json.loads(data)
 
-	#print(localData['pvData'])
+	print(localPVData['pvData'])
 
 localData()
 getDstIPs()
