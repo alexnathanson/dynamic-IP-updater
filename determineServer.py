@@ -54,8 +54,9 @@ def determineServer(arrayOfData):
 
 	#loop through data from all servers and compare voltages
 	for s in arrayOfData:
-		print(s)
-		if s['pvData']['voltage']>localPVData['pvData']['voltage']:
+		print(s['pvData']['voltage'])
+		print(localPVData['pvData'])
+		if float(s['pvData']['voltage'])>float(localPVData['pvData']['voltage']):
 			thisServer = False
 
 	if thisServer:
