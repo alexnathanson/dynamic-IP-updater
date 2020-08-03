@@ -11,7 +11,6 @@ import json
 
 subCall = 'python /home/pi/dynamic-IP-updater/cloudflare-dynamic-IP-updater.py'
 
-dstIPs = []
 
 headers = {
     #'X-Auth-Email': EMAIL,
@@ -19,11 +18,16 @@ headers = {
     'Content-Type': 'application/json',
 }
 
+dstIPs = []
 localData = ""
 
 #replace with system for retrieving DST IPs
 def getDstIPs():
-	dstIPs = ['192.168.1.206']
+
+	updatedIPs = ['192.168.1.206']
+
+	for i in range(len(updatedIPs)):
+		dstIPs.append(updatedIPs[i])
 
 #return data from a particular server
 def getData(dst):
