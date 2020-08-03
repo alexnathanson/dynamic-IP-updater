@@ -19,7 +19,7 @@ headers = {
 }
 
 dstIPs = []
-localData = ""
+localPVData = ""
 
 #replace with system for retrieving DST IPs
 def getDstIPs():
@@ -44,20 +44,17 @@ def remoteData():
 		#print(dst)
 		allData.append(getData(dst))
 
-	print('remoteDate')
-	print(allData)
 	determineServer(allData)
 
 def determineServer(arrayOfData):
 
 	#add a mechanism for comparing time stamps...
-	print('determineServer')
 	print(arrayOfData)
 	thisServer = True
 
 	#loop through data from all servers and compare voltages
 	for s in arrayOfData:
-		if s['pvData']['voltage']>localData['pvData']['voltage']:
+		print(s)
 			thisServer = False
 
 	if thisServer:
@@ -72,7 +69,7 @@ def localData():
 	    data=myfile.read()
 
 	# parse file
-	localData = json.loads(data)
+	localPVData = json.loads(data)
 
 	#print(localData['pvData'])
 
