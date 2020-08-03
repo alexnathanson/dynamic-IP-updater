@@ -12,7 +12,7 @@ import json
 #update with full path
 subCall = 'python /home/pi/dynamic-IP-updater/cloudflare-dynamic-IP-updater.py'
 
-myNAME = 'redhook.solarprotocol.net'
+myNAME = 'nightlight.xyz'
 
 serverURL = ['nightlight.xyz']#,'bedstuy.solarprotocol.net','lic.solarprotocol.net']
 
@@ -22,7 +22,7 @@ headers = {
     'Content-Type': 'application/json',
 }
 
-localData
+localData = ""
 
 #return data from a particular server
 def getData(dst):
@@ -54,13 +54,13 @@ def localData():
 	#get the local PV data
 
 	# read file
-	with open('pvData.json', 'r') as myfile:
+	with open('/var/www/html/pvData.json', 'r') as myfile:
 	    data=myfile.read()
 
 	# parse file
 	localData = json.loads(data)
 
-	print(obj)
+	print(localData['pvData'])
 
 localData()
 remoteData()
