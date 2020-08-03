@@ -27,7 +27,9 @@ def getDstIPs():
 
 #return data from a particular server
 def getData(dst):
-	response = requests.get(dst + '/pvData.json', headers=headers)
+	response = requests.get('http://' + dst + '/pvData.json', headers=headers)
+
+	print(response.json())
 
 	return response.json()
 
@@ -35,6 +37,7 @@ def remoteData():
 	allData = []
 
 	for dst in dstIPs:
+		print(dst)
 		allData.append(getData(dst))
 
 	print(allData)
