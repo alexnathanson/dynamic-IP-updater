@@ -26,7 +26,7 @@ localData = ""
 
 #return data from a particular server
 def getData(dst):
-	response = requests.get(dst + '/v1/pvSystem.json', headers=headers)
+	response = requests.get(dst + '/pvData.json', headers=headers)
 
 	return response.json()
 
@@ -34,7 +34,7 @@ def remoteData():
 	allData = []
 
 	for dst in serverURL:
-		allData.push(getData(dst))
+		allData.append(getData(dst))
 
 	determineServer(allData)
 
