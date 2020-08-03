@@ -33,7 +33,7 @@ def getDstIPs():
 def getData(dst):
 	response = requests.get('http://' + dst + '/pvData.json', headers=headers)
 
-	print(response.json())
+	#print(response.json())
 
 	return response.json()
 
@@ -41,11 +41,11 @@ def remoteData():
 	allData = []
 
 	for dst in dstIPs:
-		print(dst)
+		#print(dst)
 		allData.append(getData(dst))
 
-	print(allData)
-	#determineServer(allData)
+	#print(allData)
+	determineServer(allData)
 
 def determineServer(arrayOfData):
 
@@ -59,6 +59,7 @@ def determineServer(arrayOfData):
 			thisServer = False
 
 	if thisServer:
+		print('WINNER')
 		os.system(subCall)
 
 def localData():
