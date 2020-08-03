@@ -9,12 +9,9 @@ import os
 import fileinput
 import json
 
-#update with full path
 subCall = 'python /home/pi/dynamic-IP-updater/cloudflare-dynamic-IP-updater.py'
 
-myNAME = 'nightlight.xyz'
-
-serverURL = ['nightlight.xyz']#,'bedstuy.solarprotocol.net','lic.solarprotocol.net']
+dstIPs = []
 
 headers = {
     #'X-Auth-Email': EMAIL,
@@ -23,6 +20,10 @@ headers = {
 }
 
 localData = ""
+
+#replace with system for retrieving DST IPs
+def getDstIPs():
+	dstIPs = ['192.168.1.206']
 
 #return data from a particular server
 def getData(dst):
@@ -33,12 +34,15 @@ def getData(dst):
 def remoteData():
 	allData = []
 
-	for dst in serverURL:
+	for dst in dstIPs:
 		allData.append(getData(dst))
 
-	determineServer(allData)
+	print(allData)
+	#determineServer(allData)
 
 def determineServer(arrayOfData):
+
+	#add a mechanism for comparing time stamps...
 
 	thisServer = True
 
@@ -63,4 +67,5 @@ def localData():
 	print(localData['pvData'])
 
 localData()
+getDstIPs()
 remoteData()
