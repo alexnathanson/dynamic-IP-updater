@@ -71,10 +71,11 @@ def localData():
 	    data=myfile.read()
 
 	# parse file
-	localPVData = json.loads(data)
+	#localPVData = json.loads(data)
 
-	print(localPVData['pvData'])
+	return json.loads(data)
 
-localData()
+localPVData = localData()
+print(localPVData)
 getDstIPs()
 remoteData()
