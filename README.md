@@ -38,7 +38,7 @@ For Raspberry Pi, set chron job to run on boot and every 15 minutes
 * Make script runner executable
 	* chmod 755 scriptrunner.sh
 * Schedule Cron jobs (note: cron jobs change the environment, so environmental variables do not necessarily work - if environmental variables were set as suggested above, the below cron job lines should work. You can also try putting environment variables directly in cron)
-
+* crontab -e
 	* */15 * * * * . /etc/profile; sh /home/pi/dynamic-IP-updater/scriptrunner.sh > /home/pi/dynamic-IP-updater/cronlog.log 2>&1
 	* @reboot sleep 30 && . /etc/profile; sh /home/pi/dynamic-IP-updater/scriptrunner.sh > /home/pi/dynamic-IP-updater/cronlog.log 2>&1
 
