@@ -22,6 +22,8 @@ headers = {
     'Content-Type': 'application/json',
 }
 
+localData
+
 #return data from a particular server
 def getData(dst):
 	response = requests.get(dst + '/v1/pvSystem.json', headers=headers)
@@ -42,7 +44,7 @@ def determineServer(arrayOfData):
 
 	#loop through data from all servers and compare voltages
 	for s in arrayOfData:
-		if s['pvData']['voltage']>localData['pvData']['voltage']
+		if s['pvData']['voltage']>localData['pvData']['voltage']:
 			thisServer = False
 
 	if thisServer:
@@ -56,7 +58,7 @@ def localData():
 	    data=myfile.read()
 
 	# parse file
-	obj = json.loads(data)
+	localData = json.loads(data)
 
 	print(obj)
 
